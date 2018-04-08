@@ -13,6 +13,7 @@ public class MyRenderer implements Renderer {
 
 	MyCube cube = new MyCube();
 	float x = 0, y = 0;
+	float scale = 1;
 	
 	//　毎フレーム呼ばれる
 	@Override
@@ -60,6 +61,9 @@ public class MyRenderer implements Renderer {
 		gl.glRotatef(x, 1, 0, 0);
 		gl.glRotatef(y, 0, 1, 0);
 
+		// モデルの拡大縮小
+		gl.glScalef(scale, scale, scale);
+
 		cube.draw(gl);
 	}
 
@@ -82,9 +86,21 @@ public class MyRenderer implements Renderer {
 		gl.glEnable(GL10.GL_LIGHT0);
 	}
 
+	// 回転度の設定
 	public void setRotate(float a, float b) {
 		x += b/2;
 		y += a/2;
+	}
+	
+	// 拡大縮小度の設定
+	public void setScale(float a) {
+		if (scale * a < 0.1) {
+			scale = 0.1f;
+		} else if (scale * a > 2) {
+			scale = 2;
+		} else {
+			scale *= a;
+		}
 	}
 	
 }
